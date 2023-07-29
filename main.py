@@ -1,8 +1,8 @@
 from function import Add_new_student, Autorization, Close_driver, Search_student
 from pydantic import BaseModel
 
-login_prod = "*******"
-password_prod = "********"
+login_prod = "********"
+password_prod = "***********"
 
 
 class Student(BaseModel):

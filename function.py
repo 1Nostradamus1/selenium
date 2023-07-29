@@ -13,7 +13,7 @@ driver = webdriver.Chrome(service=s)
 driver.maximize_window()
 driver.get("https://novosibirsk-drums-stage.soft.study/log-in")
 
-wait = WebDriverWait(driver, 15)
+wait = WebDriverWait(driver, 10)
 
 def Autorization(login: str, password: str):
     login_input = wait.until(EC.presence_of_element_located((By.ID, "normalLogin_username")))
@@ -51,7 +51,7 @@ def Search_student(surname: str, name: str):
     name_input.clear()
     name_input.send_keys(surname)
     search_name = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div/div/div[3]/div/div[3]/div/div/div/div/div/div/div/table/tbody/tr[1]/td[1]/a")))
-    search_target = surname + " " + name
+    search_target = (surname + " " + name)
     if search_name.text == search_target:
         print("Студент найден!")
     else:
