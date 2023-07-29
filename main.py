@@ -1,18 +1,19 @@
 from function import Add_new_student, Autorization, Close_driver, Search_student
-from typing import NamedTuple
+from pydantic import BaseModel
+
+login_prod = "*******"
+password_prod = "********"
 
 
-login_prod = "*****"
-password_prod = "***********"
-class Student(NamedTuple):
+class Student(BaseModel):
     surname: str
     name: str
     phoneNumber: int
 
+
 Student.name = "Оля"
 Student.surname = "Иванова"
 Student.phoneNumber = 9132238732
-
 
 try:
     Autorization(login_prod, password_prod)
@@ -24,10 +25,3 @@ except Exception as ex:
 
 finally:
     Close_driver()
-
-
-
-
-
-
-

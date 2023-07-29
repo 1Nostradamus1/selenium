@@ -3,6 +3,9 @@ import time
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
 
 
 s = Service(executable_path="C:\chromedriver")
@@ -12,33 +15,26 @@ driver.get("https://novosibirsk-drums-stage.soft.study/log-in")
 
 
 def Autorization(login: str, password: str):
-    time.sleep(2)
-    login_input = driver.find_element(By.ID, "normalLogin_username")
+    login_input = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "normalLogin_username")))
     login_input.send_keys(login)
-    password_input = driver.find_element(By.ID, "normalLogin_password")
+    password_input = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "normalLogin_password")))
     password_input.send_keys(password)
-    time.sleep(2)
     password_input.send_keys(Keys.ENTER)
-    time.sleep(4)
 
 
-def  Add_new_student(surname: str, name: str, phone: int):
-    driver.find_element(By.PARTIAL_LINK_TEXT, "Add student").click()
-    time.sleep(2)
-    surname_input = driver.find_element(By.ID, "create-student_name_surname")
+
+def Add_new_student(surname: str, name: str, phone: int):
+    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.PARTIAL_LINK_TEXT, "Add student"))).click()
+    surname_input = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "create-student_name_surname")))
     surname_input.send_keys(surname)
-    time.sleep(2)
-    name_input = driver.find_element(By.ID, "create-student_name_name")
+    name_input = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "create-student_name_name")))
     name_input.send_keys(name)
-    time.sleep(2)
-    phone_input = driver.find_element(By.XPATH, "/html/body/div[1]/div/div/div[3]/div/form/div[1]/div/div[3]/div/div[2]/div/div/div/div[1]/div/div/div[1]/div/div/div/div/div/div/div/div/div[2]/input")
+    phone_input = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div/div/div[3]/div/form/div[1]/div/div[3]/div/div[2]/div/div/div/div[1]/div/div/div[1]/div/div/div/div/div/div/div/div/div[2]/input")))
     phone_input.clear()
     phone_input.click()
     phone_input.send_keys(phone)
-    time.sleep(2)
     driver.execute_script("window.scrollBy(0,document.body.scrollHeight)")
-    time.sleep(1)
-    add_student_button = driver.find_element(By.XPATH,"/html/body/div[1]/div/div/div[3]/div/form/div[5]/div/div/div/div/div/div/button/span")
+    add_student_button = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div/div/div[3]/div/form/div[5]/div/div/div/div/div/div/button/span")))
     add_student_button.click()
     time.sleep(5)
 
@@ -48,17 +44,12 @@ def Close_driver():
     driver.close()
 
 def Search_student(surname: str, name: str):
-    driver.find_element(By.XPATH, "/html/body/div[1]/div/div/header/div[1]/div/div[1]/button/span[1]").click()
-    time.sleep(2)
-    driver.find_element(By.LINK_TEXT, "List of students").click()
-    time.sleep(2)
-    name_input = driver.find_element(By.XPATH, "/html/body/div[1]/div/div/div[3]/div/div[2]/div/span[2]/input")
-    time.sleep(2)
+    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div/div/header/div[1]/div/div[1]/button/span[1]"))).click()
+    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.LINK_TEXT, "List of students"))).click()
+    name_input = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div/div/div[3]/div/div[2]/div/span[2]/input")))
     name_input.clear()
-    name_input.send_keys(surname + " " + name)
-    time.sleep(5)
-    search_name = driver.find_element(By.XPATH, "/html/body/div[1]/div/div/div[3]/div/div[3]/div/div/div/div/div/div/div/table/tbody/tr[1]/td[1]/a")
-    time.sleep(2)
+    name_input.send_keys(surname)
+    search_name = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div/div/div[3]/div/div[3]/div/div/div/div/div/div/div/table/tbody/tr[1]/td[1]/a")))
     search_target = surname + " " + name
     if search_name.text == search_target:
         print("Студент найден!")
