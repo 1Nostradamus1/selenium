@@ -8,7 +8,7 @@ from selenium.webdriver.common.keys import Keys
 s = Service(executable_path="C:\chromedriver")
 driver = webdriver.Chrome(service=s)
 driver.maximize_window()
-driver.get("https://novosibirsk-vocal-dev.soft.study/log-in")
+driver.get("https://novosibirsk-drums-stage.soft.study/log-in")
 
 
 def Autorization(login: str, password: str):
@@ -42,3 +42,25 @@ def  Add_new_student(surname: str, name: str, phone: int):
     add_student_button.click()
     time.sleep(5)
 
+
+def Close_driver():
+    driver.quit()
+    driver.close()
+
+def Search_student(surname: str, name: str):
+    driver.find_element(By.XPATH, "/html/body/div[1]/div/div/header/div[1]/div/div[1]/button/span[1]").click()
+    time.sleep(2)
+    driver.find_element(By.LINK_TEXT, "List of students").click()
+    time.sleep(2)
+    name_input = driver.find_element(By.XPATH, "/html/body/div[1]/div/div/div[3]/div/div[2]/div/span[2]/input")
+    time.sleep(2)
+    name_input.clear()
+    name_input.send_keys(surname + " " + name)
+    time.sleep(5)
+    search_name = driver.find_element(By.XPATH, "/html/body/div[1]/div/div/div[3]/div/div[3]/div/div/div/div/div/div/div/table/tbody/tr[1]/td[1]/a")
+    time.sleep(2)
+    search_target = surname + " " + name
+    if search_name.text == search_target:
+        print("Студент найден!")
+    else:
+        print("Студент не найден!")
